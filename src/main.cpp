@@ -28,6 +28,7 @@ void autonomous() {}
 
 void opcontrol() {
 	Controller master(pros::E_CONTROLLER_MASTER);
+	drivetrain::ALL.set_brake_modes(E_MOTOR_BRAKE_COAST);
 
 	while (true) {
 
