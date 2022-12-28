@@ -32,7 +32,7 @@ void opcontrol() {
 
 	while (true) {
 
-		drivetrain::drive(master.get_analog(ANALOG_LEFT_X), master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_X));		
+		drivetrain::drive(master.get_analog(ANALOG_LEFT_X), master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_X) * 0.9);		
 		
 		delay(20);
 	}

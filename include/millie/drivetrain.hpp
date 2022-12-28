@@ -4,12 +4,12 @@ using namespace pros;
 
 namespace drivetrain {
 
-#define FRONT_LEFT_MOTOR 1
-#define BACK_LEFT_MOTOR 2
-#define MIDDLE_LEFT_MOTOR 3
-#define MIDDLE_RIGHT_MOTOR 4
-#define FRONT_RIGHT_MOTOR 5
-#define BACK_RIGHT_MOTOR 6
+#define FRONT_LEFT_MOTOR -6
+#define BACK_LEFT_MOTOR 15
+#define MIDDLE_LEFT_MOTOR 5
+#define MIDDLE_RIGHT_MOTOR -10
+#define FRONT_RIGHT_MOTOR 7
+#define BACK_RIGHT_MOTOR -19
 #define GYRO1_PORT 1
 #define GYRO2_PORT 2
 #define GEARSET E_MOTOR_GEAR_600
