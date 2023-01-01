@@ -1,4 +1,6 @@
 #include "millie/robot.hpp"
+#include "pros/distance.hpp"
+#include "pros/motors.h"
 
 using namespace pros;
 
@@ -16,6 +18,7 @@ namespace drivetrain {
     ADIGyro Gyro2(GYRO2_PORT);
 
     void drive(int strafe, int forward, int turn) {
+        ALL.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
         FL = forward + turn + strafe;
         FR = forward - turn - strafe;
         ML = forward + turn;
@@ -36,6 +39,7 @@ namespace drivetrain {
     };
 
     double getMotorGroupPosition(std::vector<double> positions, int motorGroupSize) {
+        ALL.set_encoder_units(pros::E_MOTOR_ENCODER_ROTATIONS);
         double totalPosition = 0;
         for (int i = 0; i < motorGroupSize; i++) totalPosition += positions[i];
         double averagePosition = totalPosition/motorGroupSize;
@@ -69,6 +73,8 @@ namespace drivetrain {
             turnPower = abs(powerRatio) * direction;
         };
 
+        turnPower *= kP;
+
         return turnPower;
     };
 
@@ -76,6 +82,7 @@ namespace drivetrain {
         int throttle = 0;
         if (targetDistance > currentDistance) throttle = abs((targetDistance - currentDistance)/targetDistance);
         if (targetDistance < currentDistance) throttle = -abs((currentDistance - targetDistance)/currentDistance);
+        throttle *= kP;
         return throttle;
     };
 
@@ -124,4 +131,21 @@ namespace drivetrain {
             delay(20);
         };
     };    
-}
+};
+
+namespace distance {
+
+    Motor Servo(SERVO_PORT, SERVO_GEARSET);
+    Distance Sensor(DISTANCE_PORT);
+
+    int read() {
+        return Sensor.get();
+    };
+    void rotateTo(double angle) {
+        Servo.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+        Servo.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+        Servo.move_absolute(angle, 50);
+    };
+
+};
+
