@@ -25,8 +25,8 @@ namespace flywheel {
 
     #define FLYWHEEL_PORT 8
     #define FLYWHEEL_GEARSET E_MOTOR_GEAR_600
-    #define LONG_RANGE_POWER 1
-    #define SHORT_RANGE_POWER 0.5
+    #define LONG_RANGE_POWER 0.6666667
+    #define SHORT_RANGE_POWER 0.3333333
     #define MAXIMUM_VOLTAGE 12000
     #define TECHNICAL_FLYWHEEL_RPM 600
 
@@ -52,7 +52,7 @@ namespace endgame {
 
 namespace driver {
 
-    #define MACRO_COOLDOWN 200; 
+    #define MACRO_COOLDOWN 375;
 
     extern Controller master;
 

@@ -29,7 +29,7 @@ void opcontrol() {
 
 		if (master.get_digital(DIGITAL_X)) endgame::setState(1);
 
-		if (macroCooldown > MACRO_COOLDOWN + 1) {
+		if (macroCooldown >= MACRO_COOLDOWN + 1) {
 			if (master.get_digital(DIGITAL_LEFT)) { distance::rotateTo(90); rm();}
 			else if (master.get_digital(DIGITAL_RIGHT)) { distance::rotateTo(-90); rm();}
 			else if (master.get_digital(DIGITAL_UP)) { distance::rotateTo(0); rm();};
