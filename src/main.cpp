@@ -30,18 +30,21 @@ void opcontrol() {
 		if (master.get_digital(DIGITAL_X)) endgame::setState(1);
 
 		if (macroCooldown >= MACRO_COOLDOWN + 1) {
-			if (master.get_digital(DIGITAL_LEFT)) { distance::rotateTo(90); rm();}
-			else if (master.get_digital(DIGITAL_RIGHT)) { distance::rotateTo(-90); rm();}
-			else if (master.get_digital(DIGITAL_UP)) { distance::rotateTo(0); rm();};
-			if (master.get_digital(DIGITAL_L1)) {
+			if (master.get_digital_new_press(DIGITAL_LEFT)) { distance::rotateTo(90); rm();}
+			else if (master.get_digital_new_press(DIGITAL_RIGHT)) { distance::rotateTo(-90); rm();}
+			else if (master.get_digital_new_press(DIGITAL_UP)) { distance::rotateTo(0); rm();};
+			if (master.get_digital_new_press(DIGITAL_L1)) {
 				if (flywheel::targetSpeed <= 0) flywheel::setTargetSpeed(SHORT_RANGE_POWER); 
 				else flywheel::setTargetSpeed(0);
 				rm();
 			} 
-			else if (master.get_digital(DIGITAL_L2)) {
+			else if (master.get_digital_new_press(DIGITAL_L2)) {
 				if (flywheel::targetSpeed < LONG_RANGE_POWER) flywheel::setTargetSpeed(LONG_RANGE_POWER); 
 				else flywheel::setTargetSpeed(0);
 				rm();
+			};
+			if (master.get_digital_new_press(DIGITAL_Y)) {
+				endgame::setState(abs(endgame::state - 1));
 			};
 		};
 

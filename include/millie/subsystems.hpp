@@ -46,6 +46,8 @@ namespace endgame {
 
     extern ADIDigitalOut solenoid;
 
+    extern int state;
+
     void setState(int newState);
 
 };

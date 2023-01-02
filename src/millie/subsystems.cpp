@@ -48,8 +48,11 @@ namespace endgame {
 
     ADIDigitalOut solenoid(SOLENOID_PORT, DEFAULT_STATE);
 
+    int state = DEFAULT_STATE;
+
     void setState(int newState) {
-        solenoid.set_value(newState);
+        solenoid.set_value(abs(newState));
+        state = abs(newState);
     };
 
 }
