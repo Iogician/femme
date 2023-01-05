@@ -20,7 +20,7 @@ namespace drivetrain {
     #define POSITIONAL_TOLERANCE 3
     #define ANGULAR_TOLERANCE 1
     #define MINIMUM_SPEED 127 * 0.1
-    #define kP 8;
+    #define kP 8
 
     extern Motor FL;
     extern Motor BL;
@@ -33,7 +33,9 @@ namespace drivetrain {
     extern ADIGyro Gyro2;
 
     int heading();
+    void resetGyros();
     void drive(int strafe, int forward, int turn);
+    void driveForTime(int strafe, int forward, int turn, int time);
     double convertToInches(double ticks);
     double getMotorGroupPosition(std::vector<double> positions, int motorGroupSize);
     int angularCorrection(int targetHeading);

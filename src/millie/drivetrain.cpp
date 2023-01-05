@@ -27,10 +27,21 @@ namespace drivetrain {
         BR = forward - turn + strafe;      
     };
 
+    void driveForTime(int strafe, int forward, int turn, int time) {
+        drive(strafe, forward, turn);
+        wait(time);
+        drive(0,0,0);
+    };
+
     int heading() {
         int avg = (Gyro1.get_value() + Gyro2.get_value())/20;
         if (avg < 0) avg = 360 - abs(avg);
         return avg;
+    };
+
+    void resetGyros() {
+        Gyro1.reset();
+        Gyro2.reset();
     };
 
     double convertToInches(double ticks) {
@@ -100,7 +111,7 @@ namespace drivetrain {
             int correctedDirection = direction * (strafeSpeed/abs(strafeSpeed));
             if (abs(strafeSpeed) < MINIMUM_SPEED) strafeSpeed = MINIMUM_SPEED * correctedDirection;
             drive(strafeSpeed, 0, turnSpeed);
-            delay(20);
+            wait(20);
         };        
     };
 
@@ -118,7 +129,7 @@ namespace drivetrain {
             int correctedDirection = direction * (forwardSpeed/abs(forwardSpeed));
             if (abs(forwardSpeed) < MINIMUM_SPEED) forwardSpeed = MINIMUM_SPEED * correctedDirection;
             drive(0, forwardSpeed, turnSpeed);
-            delay(20);
+            wait(20);
         };
     };
 
@@ -128,7 +139,7 @@ namespace drivetrain {
             int direction = speed/abs(speed);
             if (abs(actualSpeed) < MINIMUM_SPEED) actualSpeed = MINIMUM_SPEED * direction;
             drive(0, 0, actualSpeed);
-            delay(20);
+            wait(20);
         };
     };    
 };

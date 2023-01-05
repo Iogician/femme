@@ -8,15 +8,16 @@ using namespace pros;
 
 namespace intake {
 
-    #define INTAKE_PORT 12
+    #define INTAKE_PORT -12
     #define INTAKE_GEARSET E_MOTOR_GEAR_200
     #define OPTICAL_PORT 20
 
     extern Motor motor;
     extern Optical optical;
 
-    void spin(double pwr);
     void opticalLED(int pwm);
+    void spin(double pwr);
+    void spinForTime(double pwr, int time);
     string getColor();
 
 };
@@ -33,15 +34,17 @@ namespace flywheel {
     extern Motor motor;
 
     extern int targetSpeed;
+    extern double actualSpeed;
 
     int voltageUpdate();
     void setTargetSpeed(double pwr);
+    void brake(bool mode);
 
 };
 
 namespace endgame {
 
-    #define SOLENOID_PORT 3
+    #define SOLENOID_PORT 8
     #define DEFAULT_STATE 0
 
     extern ADIDigitalOut solenoid;
@@ -51,29 +54,3 @@ namespace endgame {
     void setState(int newState);
 
 };
-
-namespace driver {
-
-    #define MACRO_COOLDOWN 375;
-
-    extern Controller master;
-
-    extern int macroCooldown;
-
-    void cd(int increment);
-    void rm();
-
-};
-
-namespace brainScreen {
-
-    #define BRAIN_UPDATE_CD 50;
-
-    extern int brainCD;
-
-   void init();
-   void rb();
-   void cd(int increment);
-   void update();
-
-}

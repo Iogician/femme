@@ -12,7 +12,9 @@ void disabled() {}
 
 void competition_initialize() {}
 
-void autonomous() {}
+void autonomous() {
+	programming::runAutonomous();
+};
 
 void opcontrol() {
 
@@ -43,17 +45,11 @@ void opcontrol() {
 				else flywheel::setTargetSpeed(0);
 				rm();
 			};
-			if (master.get_digital_new_press(DIGITAL_Y)) {
-				endgame::setState(abs(endgame::state - 1));
-			};
+			if (master.get_digital_new_press(DIGITAL_X)) changeDirection(direction * -1);
+			if (master.get_digital_new_press(DIGITAL_Y)) endgame::setState(1);
 		};
 
-		flywheel::voltageUpdate();
-
-		brainScreen::update();
-
 		cd(20);
-		brainScreen::cd(20);
-		delay(20);
-	}
-}
+		wait(20);
+	};
+};

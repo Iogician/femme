@@ -1,4 +1,5 @@
 #include "millie/robot.hpp"
+#include "pros/motors.h"
 
 using namespace pros;
 
@@ -7,12 +8,21 @@ namespace intake {
     Motor motor(INTAKE_PORT, INTAKE_GEARSET);
     Optical optical(OPTICAL_PORT);
 
-    void spin(double pwr) {
-        motor.move_voltage(MAXIMUM_VOLTAGE * pwr);
+    void opticalLED(int pwm) {
+        optical.set_led_pwm(pwm);
     };
 
-    void opticalLED(int pwm) {
+    void spin(double pwr) {
+        motor.move_voltage(MAXIMUM_VOLTAGE * pwr);
+        opticalLED(pwr * 100);
+        if (abs(pwr) > 0) flywheel::brake(true); 
+        else flywheel::brake(false); 
+    };
 
+    void spinForTime(double pwr, int time) {
+        spin(pwr);
+        wait(time);
+        spin(0);
     };
 
     string getColor() {
@@ -26,10 +36,12 @@ namespace flywheel {
     Motor motor(FLYWHEEL_PORT, FLYWHEEL_GEARSET);
 
     int targetSpeed = 0;
+    double actualSpeed = 0;
 
     int voltageUpdate() {
         if (targetSpeed == 0)  {motor.move_voltage(0); return 0; }
-        int currentVoltage = motor.get_actual_velocity() * (MAXIMUM_VOLTAGE/TECHNICAL_FLYWHEEL_RPM);
+        actualSpeed = motor.get_actual_velocity();
+        int currentVoltage = actualSpeed * (MAXIMUM_VOLTAGE/TECHNICAL_FLYWHEEL_RPM);
         int convertedTarget = targetSpeed * (MAXIMUM_VOLTAGE/TECHNICAL_FLYWHEEL_RPM);
         int error = (convertedTarget - currentVoltage) * kP;
         int finalVoltage = convertedTarget + error;
@@ -39,7 +51,13 @@ namespace flywheel {
 
     void setTargetSpeed(double pwr) {
         targetSpeed = TECHNICAL_FLYWHEEL_RPM * pwr;
+        if (targetSpeed > 0) brake(false);
         voltageUpdate();
+    };
+
+    void brake(bool mode) {
+        if (mode == true && abs(actualSpeed) < 30) motor.set_brake_mode(MOTOR_BRAKE_BRAKE);
+        else motor.set_brake_mode(MOTOR_BRAKE_COAST);
     };
 
 }
@@ -51,8 +69,9 @@ namespace endgame {
     int state = DEFAULT_STATE;
 
     void setState(int newState) {
-        solenoid.set_value(abs(newState));
-        state = abs(newState);
+        solenoid.set_value(newState);
+        state = newState;
+        driver::master.rumble(".");
     };
 
 }
