@@ -26,7 +26,13 @@ namespace intake {
     };
 
     string getColor() {
-        return "";
+        double hue = optical.get_hue();
+        string color = "None";
+        if (optical.get_proximity() > 200) {
+            if (hue > 300 || hue < 30) color = "Blue";
+            if (hue > 180 || hue < 300) color = "Red";
+        };
+        return color;
     };
 
 }
